@@ -59,6 +59,7 @@ class _SignInScreenState extends State<SignInScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Const Text('osama'),
             TextField(
               onChanged: (value) => email = value,
               decoration: const InputDecoration(hintText: 'Enter your email'),
