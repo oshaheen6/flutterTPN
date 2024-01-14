@@ -20,6 +20,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "bloc",
+      "rootUri": "file:///home/osama/.pub-cache/hosted/pub.dev/bloc-8.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "boolean_selector",
       "rootUri": "file:///home/osama/.pub-cache/hosted/pub.dev/boolean_selector-2.1.1",
       "packageUri": "lib/",
@@ -404,7 +410,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2024-01-14T18:45:06.565743Z",
+  "generated": "2024-01-14T19:11:52.254621Z",
   "generator": "pub",
   "generatorVersion": "3.2.4"
 }
