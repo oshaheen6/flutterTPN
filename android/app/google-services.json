@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1093198369481",
+    "project_id": "tpnexpo-42b2b",
+    "storage_bucket": "tpnexpo-42b2b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1093198369481:android:c1559afc271549414a3318",
+        "android_client_info": {
+          "package_name": "com.example.flutter_tpn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1093198369481-phpvddfo3unodv1q3tj2n4nromj9ch17.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBX0j0PNxRHEWhQUOq8BP0Q8rMWaZT6S9M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1093198369481-phpvddfo3unodv1q3tj2n4nromj9ch17.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1093198369481-ehm81clfcu41341rd6mtpcaeni2bjime.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterTpn.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
