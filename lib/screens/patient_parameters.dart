@@ -52,7 +52,7 @@ class _MainPageState extends State<MainPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            NetVolumeCalculator(onCalculate: _updateWeightAndNetVolume),
+            NetVolumeCalculator(),
             ElevatedButton(
               child: const Text('click'),
               onPressed: () {

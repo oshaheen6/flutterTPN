@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 class Parameters extends StatefulWidget {
   final String weight;
   final String netVolume;
-  final double maxGlucoseConcentration;
+  final double? maxGlucoseConcentration;
   final double? minGlucoseConcentration;
 
   const Parameters({
     Key? key,
     required this.weight,
     required this.netVolume,
-    required this.maxGlucoseConcentration,
+    this.maxGlucoseConcentration,
     this.minGlucoseConcentration,
   }) : super(key: key);
 

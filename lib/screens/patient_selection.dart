@@ -1,8 +1,7 @@
-import 'package:connectivity/connectivity.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'patient_addition.dart';
@@ -21,8 +20,6 @@ class _HospitalSelectPatientState extends State<HospitalSelectPatient> {
   String searchQuery = "";
   List<Map<String, dynamic>> filteredPatients = [];
   bool modalVisible = false;
-
-  final storage = new FlutterSecureStorage();
 
   void handleAddPatient(BuildContext context) async {
     final patient = await Navigator.push(
@@ -67,11 +64,6 @@ class _HospitalSelectPatientState extends State<HospitalSelectPatient> {
   }
 
   Future<void> getPatientNames() async {
-    var connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.none) {
-      print('Offline');
-      return;
-    }
     final patientDataRef = FirebaseFirestore.instance
         .collection("hospitals")
         .doc("El bakry")

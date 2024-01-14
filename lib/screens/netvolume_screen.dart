@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'setting_screen.dart';
 
 class NetVolumeCalculator extends StatefulWidget {
-  final void Function(String, String) onCalculate;
+  //final void Function(String, String) onCalculate;
 
-  const NetVolumeCalculator({required this.onCalculate});
+  const NetVolumeCalculator();
+//  const NetVolumeCalculator({required this.onCalculate});
 
   @override
   _NetVolumeCalculatorState createState() => _NetVolumeCalculatorState();
@@ -57,7 +58,7 @@ class _NetVolumeCalculatorState extends State<NetVolumeCalculator> {
     setState(() {
       netVolumeResult = netVolume.toStringAsFixed(2);
     });
-    widget.onCalculate(weight, netVolumeResult);
+    //widget.onCalculate(weight, netVolumeResult);
   }
 
   @override

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PatientAddition extends StatefulWidget {
-  static const String _routeName = '/patient_addition';
-
   @override
   _PatientAdditionState createState() => _PatientAdditionState();
 }

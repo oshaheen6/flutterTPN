@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'components/context/auth_provider.dart';
-import 'patient_selection.dart';
 import 'sign_in_screen.dart';
 
 class PrintScreen extends StatelessWidget {
@@ -39,42 +38,9 @@ class PrintScreen extends StatelessWidget {
               style: const TextStyle(fontSize: 28),
             ),
             // Create a function to create a card
-            const Row(
-              children: [
-                Column(
-                  child: SizedBox(
-                    height: 800,
-                    width: 200,
-                    child: const buildCards(3),
-                  ),
-                ),
-              ],
-            ),
           ],
         ),
       ),
     );
-  }
-
-  // Create a function to create a card
-   Widget buildCards(int numOfCards) {
-    List<Widget> cards = [];
-    for (int i = 0; i < numO   fCards; i++) {
-      cards.add(Card(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text('Card #$i'),
-              TextField(
-                decoration: InputDecoration(hintText: 'Enter text'),
-              ),
-            ],
-          ),
-        ),
-      ));
-    }
-    return Column(children: cards);
   }
 }

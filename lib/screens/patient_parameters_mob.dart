@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tpn_flutter/screens/prev_patient_parameter_mob.dart';
+import 'prev_patient_parameter_mob.dart';
 
 class PatientParametersMob extends StatelessWidget {
   final String patientName;
