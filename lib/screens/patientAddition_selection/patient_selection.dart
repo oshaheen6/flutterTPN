@@ -56,6 +56,11 @@ class _HospitalSelectPatientState extends State<HospitalSelectPatient> {
   void initState() {
     super.initState();
     getPatientNames();
+
+    ///// need to know how to use it later
+    context
+        .read<PatientSelectionCubit>()
+        .patientSelectionInitial(); // Emit initial state
   }
 
   void handleSelectPatient(String? id) {
@@ -88,7 +93,8 @@ class _HospitalSelectPatientState extends State<HospitalSelectPatient> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PatientSelectionCubit, PatientSelectionState>(
-      builder: (context, state) {
+        builder: (context, state) {
+      if (state is PatientListCreated) {
         return Scaffold(
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kToolbarHeight),
@@ -135,13 +141,12 @@ class _HospitalSelectPatientState extends State<HospitalSelectPatient> {
                         child: Text('No patients found.'),
                       )
                     : ListView.builder(
-                        itemCount: filteredPatients.length,
+                        itemCount: state.patients.length,
                         itemBuilder: (context, index) {
-                          final patient = filteredPatients[index];
+                          final patient = state.patients[index];
                           return ListTile(
-                            onTap: () => handleSelectPatient(patient["id"]),
-                            title: Text(patient["patientName"]),
-                            selected: patient["id"] == selectedPatient,
+                            onTap: () => {},
+                            title: Text(patient),
                           );
                         },
                       ),
@@ -187,7 +192,9 @@ class _HospitalSelectPatientState extends State<HospitalSelectPatient> {
             ],
           ),
         );
-      },
-    );
+      } else {
+        return const Center(child: CircularProgressIndicator());
+      }
+    });
   }
 }
