@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_tpn/screens/home_screen.dart';
-import 'package:flutter_tpn/screens/sign_in_screen.dart';
-import 'firebase_options.dart'; // Import the DefaultFirebaseOptions class
+import 'firebase_options.dart';
+import './screens/Sign_in_out/sign_in_screen.dart';
 
 void main() async {
   // Initialize Firebase
@@ -20,7 +20,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'NICU TPN',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
