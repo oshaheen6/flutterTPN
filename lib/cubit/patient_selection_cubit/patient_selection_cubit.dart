@@ -6,7 +6,11 @@ part 'patient_selection_state.dart';
 class PatientSelectionCubit extends Cubit<PatientSelectionState> {
   PatientSelectionCubit() : super(PatientSelectionInitial());
 
-  List patients = ['osama', 'shaheen'];
+  void patientSelectionInitial() {
+    List patients = ['osama', 'shaheen'];
+
+    emit(PatientListCreated(patients: patients));
+  }
 
 // the declaration for calculateNetVolume & calculateMaxGir results
   int netVolume = 0;
