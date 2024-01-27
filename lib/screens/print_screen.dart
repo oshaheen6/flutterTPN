@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'components/context/auth_provider.dart';
-import 'sign_in_screen.dart';
+import 'Sign_in_out/sign_in_screen.dart';
 
 class PrintScreen extends StatelessWidget {
+  const PrintScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-// Get the AuthProvider instance from the provider
-    final authProvider = Provider.of<AuthProvider>(context);
-
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
@@ -18,11 +15,9 @@ class PrintScreen extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.logout),
               onPressed: () {
-                // Sign out the user and navigate to the sign in screen
-                authProvider.signOut();
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SignInScreen()),
+                  MaterialPageRoute(builder: (context) => const SignInScreen()),
                 );
               },
             ),

@@ -1,0 +1,39 @@
+create the logic for firebase get and set (patientData, each day parameters & Volume)
+
+i want to helper to replace the TextField to myTextField
+    the goal to decrease the code to some default 
+
+i want to add some classed from omar advance flutter to improve the code
+
+i want to add cubit that will manage
+    1- login logic to use it in the future to track user and create log files
+
+    2- patient Name & patient MRN
+        that i want to track and send in multiple pages
+
+            create the patient and MRN from firebase & by the user
+            
+
+            after choosing the patientName emit patientSelected
+            and navigate to a new page to see old saved TPN requests with a button to create a new day
+
+
+            i want after this
+                with the same patientName i want to add alot of data (using controllers)
+                ml/kg and net volume calculation
+                parameters and mls of each componenets with each day
+
+                 
+
+test for the code
+initial(required patientName, MRN from firebase)
+
+sendParametersToFirebase
+
+what will i need to do step by step
+i still need to make the cubit work
+how to make the cubit work as simple
+
+get all patient from database
+delay the fetching from firebase
+set a pre-set data to test the code

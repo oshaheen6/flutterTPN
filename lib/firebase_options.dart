@@ -44,39 +44,38 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAc4Gpj80jWOCkIHFaxyuJMKtr5Hz-eWGA',
-    appId: '1:1093198369481:web:7da3654640fc23554a3318',
-    messagingSenderId: '1093198369481',
-    projectId: 'tpnexpo-42b2b',
-    authDomain: 'tpnexpo-42b2b.firebaseapp.com',
-    storageBucket: 'tpnexpo-42b2b.appspot.com',
+    apiKey: 'AIzaSyCmdoQppkd33ik4gFyyJ2NAlePjmQiF92Q',
+    appId: '1:418524795092:web:367996ed100bc7cde3eb41',
+    messagingSenderId: '418524795092',
+    projectId: 'fluttertpn',
+    authDomain: 'fluttertpn.firebaseapp.com',
+    storageBucket: 'fluttertpn.appspot.com',
+    measurementId: 'G-LR8V9HJB1Y',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBX0j0PNxRHEWhQUOq8BP0Q8rMWaZT6S9M',
-    appId: '1:1093198369481:android:0618ab417cdb44ad4a3318',
-    messagingSenderId: '1093198369481',
-    projectId: 'tpnexpo-42b2b',
-    storageBucket: 'tpnexpo-42b2b.appspot.com',
+    apiKey: 'AIzaSyDAmsMv-Kc4-z-nJp1op3r9ji9-EnwqAVI',
+    appId: '1:418524795092:android:c446cc409dc787fce3eb41',
+    messagingSenderId: '418524795092',
+    projectId: 'fluttertpn',
+    storageBucket: 'fluttertpn.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBQ6cQtlIrPKP5rJx4OlrgysPFlQLn0fXA',
-    appId: '1:1093198369481:ios:1c944e7586bdae7e4a3318',
-    messagingSenderId: '1093198369481',
-    projectId: 'tpnexpo-42b2b',
-    storageBucket: 'tpnexpo-42b2b.appspot.com',
-    iosClientId: '1093198369481-ggb6ucuu7cj2nt1i39o66lhcdg6tqnl6.apps.googleusercontent.com',
-    iosBundleId: 'com.example.tpnFlutter',
+    apiKey: 'AIzaSyCQJGowxSudYBnsW4XP-rMkyNAtmlQEUWQ',
+    appId: '1:418524795092:ios:35309e487a8c4969e3eb41',
+    messagingSenderId: '418524795092',
+    projectId: 'fluttertpn',
+    storageBucket: 'fluttertpn.appspot.com',
+    iosBundleId: 'com.example.flutterTpn',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBQ6cQtlIrPKP5rJx4OlrgysPFlQLn0fXA',
-    appId: '1:1093198369481:ios:79566ef0853e14684a3318',
-    messagingSenderId: '1093198369481',
-    projectId: 'tpnexpo-42b2b',
-    storageBucket: 'tpnexpo-42b2b.appspot.com',
-    iosClientId: '1093198369481-dc6kaaplnfmfjuhbqdal94ohdp3p8upf.apps.googleusercontent.com',
-    iosBundleId: 'com.example.tpnFlutter.RunnerTests',
+    apiKey: 'AIzaSyCQJGowxSudYBnsW4XP-rMkyNAtmlQEUWQ',
+    appId: '1:418524795092:ios:fc6cd7dc1fbb9a44e3eb41',
+    messagingSenderId: '418524795092',
+    projectId: 'fluttertpn',
+    storageBucket: 'fluttertpn.appspot.com',
+    iosBundleId: 'com.example.flutterTpn.RunnerTests',
   );
 }
