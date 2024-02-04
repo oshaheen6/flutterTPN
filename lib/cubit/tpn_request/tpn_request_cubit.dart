@@ -33,6 +33,21 @@ class TpnRequestCubit extends Cubit<TpnRequestState> {
   TextEditingController lipidController = TextEditingController();
   TextEditingController girController = TextEditingController();
 
+  late double _maxGir;
+  double _naMl = 0;
+  double _kMl = 0;
+  double _mgMl = 0;
+  double _phosphorusMl = 0;
+  double _protienMl = 0;
+  double _lipidMl = 0;
+  double _vitaminMl = 0;
+  double _traceMl = 0;
+  String _naConcentration = '0.9%';
+  String _traceElement = 'Addaven';
+  double _glucosePercentage = 0;
+
+  late double weight;
+
   void calculateNetVolume(
       int patientWeight,
       int mlKgDay,
@@ -66,9 +81,46 @@ class TpnRequestCubit extends Cubit<TpnRequestState> {
 //calculate each parameter volume
 
 //calculate maxGir
-  }
 
-  void saveParametersAndVolume() {
-    //pass data to firebase to be saved
+    double na = double.tryParse(naController.text) ?? 0;
+    double k = double.tryParse(kController.text) ?? 0;
+    double mg = double.tryParse(mgController.text) ?? 0;
+    double phosphorus = double.tryParse(phosphorusController.text) ?? 0;
+    double traceElement = double.tryParse(traceElementController.text) ?? 0;
+    double vitamins = double.tryParse(vitaminsController.text) ?? 0;
+    double protein = double.tryParse(proteinController.text) ?? 0;
+    double lipid = double.tryParse(lipidController.text) ?? 0;
+
+    _phosphorusMl = phosphorus * 1;
+    var naPhosphorus = phosphorus * 2;
+
+    _naMl =
+        (na - naPhosphorus) * weight * (_naConcentration == '0.9%' ? 6.5 : 2);
+
+    _kMl = k * weight * 0.5;
+    _mgMl = mg * weight * 2.5;
+
+    _lipidMl = lipid * weight * 5;
+    _protienMl = protein * weight * 10;
+    _vitaminMl = vitamins * weight;
+    _traceMl = traceElement * weight * (_traceElement == 'Addaven' ? 0.1 : 1);
+
+    double glucoseVolume = netVolume -
+        (_lipidMl +
+            _protienMl +
+            _naMl +
+            _kMl +
+            _mgMl +
+            _phosphorusMl +
+            _traceMl +
+            _vitaminMl);
+    double calculatedMaxGir =
+        glucoseVolume / 24 * 25 / (6 * weight) * (1 + _glucosePercentage / 100);
+
+    _maxGir = calculatedMaxGir;
   }
+}
+
+void saveParametersAndVolume() {
+  //pass data to firebase to be saved
 }

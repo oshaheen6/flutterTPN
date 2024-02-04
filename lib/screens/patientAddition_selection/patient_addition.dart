@@ -50,7 +50,7 @@ class _PatientAdditionState extends State<PatientAddition> {
                       .collection('patientList');
                   final newPatientDocRef = await patientListRef.add({
                     'patientName': patientName,
-                    'MRN': mrn,
+                    'mrn': mrn,
                   });
 
                   final patientParametersRef = FirebaseFirestore.instance.doc(

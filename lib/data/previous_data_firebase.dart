@@ -2,38 +2,33 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Patient {
   final String patientName;
-  final String docId;
-  final num mrn;
+  //final String docId;
+  final String mrn;
 
-  Patient({required this.patientName, required this.docId, required this.mrn});
+  Patient({required this.patientName, required this.mrn});
 }
 
-class FirestoreService {
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
+class GettingData {
+  GettingData();
 
+  final FirebaseFirestore db = FirebaseFirestore.instance;
   final String mainCollectionPath = 'hospitals';
   CollectionReference get mainCollectionRef =>
-      _db.collection(mainCollectionPath);
+      db.collection(mainCollectionPath);
 
-  CollectionReference allPatient(String documentPath) => _db
+  CollectionReference allPatient(String documentPath) => db
       .collection(mainCollectionPath)
       .doc(documentPath)
       .collection('patientList');
-}
 
-class MyWidget {
-  MyWidget();
-
-  final FirestoreService db = FirestoreService();
   Future<List<Patient>> fetchPatients() async {
-    final patientDataRef = db.allPatient('el bakry');
+    final patientDataRef = allPatient('El bakry');
 
     final querySnapshot = await patientDataRef.get();
 
     final patients = querySnapshot.docs.map((doc) {
       final data = doc.data() as Map<String, dynamic>;
-      return Patient(
-          patientName: data['patientName'], docId: doc.id, mrn: data['mrn']);
+      return Patient(patientName: data['patientName'], mrn: data['mrn']);
     }).toList();
 
     return patients;

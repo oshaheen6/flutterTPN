@@ -7,6 +7,8 @@ import 'patient_addition.dart';
 import '../Sign_in_out/sign_in_screen.dart';
 
 class HospitalSelectPatient extends StatefulWidget {
+  const HospitalSelectPatient({super.key});
+
   @override
   _HospitalSelectPatientState createState() => _HospitalSelectPatientState();
 }
@@ -52,6 +54,7 @@ class _HospitalSelectPatientState extends State<HospitalSelectPatient> {
     });
   }
 
+  late List allcharacters;
   @override
   void initState() {
     super.initState();
@@ -60,7 +63,10 @@ class _HospitalSelectPatientState extends State<HospitalSelectPatient> {
     ///// need to know how to use it later
     context
         .read<PatientSelectionCubit>()
-        .patientSelectionInitial(); // Emit initial state
+        .patientSelectionInitial(); // Emit initial stat
+
+    //allcharacters =
+    BlocProvider.of<PatientSelectionCubit>(context).patientSelectionInitial();
   }
 
   void handleSelectPatient(String? id) {

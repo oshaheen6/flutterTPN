@@ -1,11 +1,8 @@
-
 /////////// repository   /////////
+///
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:your_app/models/category.dart';
-import 'package:your_app/models/product.dart';
-import 'package:your_app/cubit/data_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/material.dart';
 
 class DataRepository {
   Future<list<category>> fetchCategories() async {
@@ -17,14 +14,7 @@ class DataRepository {
   }
 }
 
-
 ////////   cubit   ////////////////
-
-
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:your_app/models/category.dart';
-import 'package:your_app/models/product.dart';
-import 'package:your_app/data_repository.dart';
 
 class DataCubit extends Cubit<DataState> {
   final DataRepository _repository;
@@ -39,9 +29,6 @@ class DataCubit extends Cubit<DataState> {
 }
 
 ///////////// UI ///////////
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:your_app/cubit/data_cubit.dart';
 
 class ProductList extends StatelessWidget {
   @override
@@ -61,5 +48,5 @@ class ProductList extends StatelessWidget {
         }
       },
     );
- 
-
+  }
+}

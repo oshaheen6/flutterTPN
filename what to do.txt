@@ -37,3 +37,12 @@ how to make the cubit work as simple
 get all patient from database
 delay the fetching from firebase
 set a pre-set data to test the code
+
+
+
+
+31/1 todo list
+    1- how to call list class in cubit
+    2- remove controllers from the ui logic into cubit
+    3- retype the parameters screen with myTextField
+    4- put the appbar in the helper folder

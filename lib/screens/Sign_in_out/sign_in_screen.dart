@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-//import 'package:flutter_login/flutter_login.dart';
+import 'package:flutter_login/flutter_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import '../patientAddition_selection/patient_selection.dart';
-import '../netVolumeAndParameters/netvolume_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -13,70 +11,104 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  // final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
   String email = '';
   String password = '';
 
-  Future<void> _signIn() async {
-    try {
-      await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-
-      // Navigate to the appropriate screen based on the platform
-      if (kIsWeb) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HospitalSelectPatient()),
-        );
-      } else if (Theme.of(context).platform == TargetPlatform.iOS) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => NetVolumeCalculator()),
-        );
-      } else if (Theme.of(context).platform == TargetPlatform.android) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => NetVolumeCalculator()),
-        );
-      }
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('osama'),
-            TextField(
-              onChanged: (value) => email = value,
-              decoration: const InputDecoration(hintText: 'Enter your email'),
-            ),
-            TextField(
-              onChanged: (value) => password = value,
-              decoration:
-                  const InputDecoration(hintText: 'Enter your password'),
-              obscureText: true,
-            ),
-            ElevatedButton(
-              onPressed: _signIn,
-              child: const Text('Sign in'),
-            )
-          ],
-        ),
+    return FlutterLogin(
+      onLogin: (loginData) async {
+        try {
+          // Sign the user in with their email and password
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: loginData.name,
+            password: loginData.password,
+          );
+
+          // Navigate to the appropriate screen based on the platform
+          if (Theme.of(context).platform == TargetPlatform.iOS) {
+            // If the user is using an iOS device, navigate to the HospitalSelectPatient screen
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const HospitalSelectPatient()),
+            );
+          } else {
+            // If the user is using an Android device, navigate to the PrintScreen screen
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const HospitalSelectPatient()),
+            );
+          }
+
+          return null;
+        } on FirebaseAuthException catch (e) {
+          if (e.code == 'auth/user-not-found') {
+            // Show a username error message
+            //            return 'No user found for that email.';
+          } else if (e.code == 'wrong-password') {
+            // Show a password error message
+            return 'Wrong password provided for that user.';
+          } else {
+            // Show a generic error message
+            return 'Error signing in. Please try again later.';
+          }
+        }
+        return null;
+      },
+      onSignup: (loginData) {
+        // Implement the user sign-up logic here
+        return null;
+      },
+      onRecoverPassword: (email) async {
+        try {
+          // Send a password reset email to the user's email address
+          await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+
+          // Show a success message
+          return 'Password reset email sent. Please check your inbox.';
+        } catch (error) {
+          // Show an error message
+          return 'Error sending password reset email. Please try again later.';
+        }
+      },
+      onSubmitAnimationCompleted: () {
+        // Navigate to the appropriate screen based on the platform
+        if (Theme.of(context).platform == TargetPlatform.iOS) {
+          // If the user is using an iOS device, navigate to the HospitalSelectPatient screen
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const HospitalSelectPatient()),
+          );
+        } else {
+          // If the user is using an Android device, navigate to the PrintScreen screen
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const HospitalSelectPatient()),
+          );
+        }
+      },
+      title: 'TPN Bakry',
+      theme: LoginTheme(
+        primaryColor: Colors.blue,
+      ),
+      messages: LoginMessages(
+        passwordHint: 'Password',
+        confirmPasswordHint: 'Confirm Password',
+        loginButton: 'LOG IN',
+        signupButton: 'REGISTER',
+        forgotPasswordButton: 'Forgot password',
+        recoverPasswordButton: 'CHANGE PASSWORD',
+        goBackButton: 'BACK',
+        confirmPasswordError: 'Passwords do not match!',
+        recoverPasswordDescription:
+            'We will send you an email to reset your password.',
+        recoverPasswordSuccess: 'Password reset email sent.',
+        flushbarTitleError: 'Error',
+        flushbarTitleSuccess: 'Success',
       ),
     );
   }
