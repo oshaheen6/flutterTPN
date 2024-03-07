@@ -15,8 +15,8 @@ class _PatientParametersScreenState extends State<PatientParametersScreen> {
     return const MaterialApp(
       title: 'Flutter Demo',
       home: SplitView.material(
-        child: MainPage(),
         placeholder: PlaceholderPage(),
+        child: MainPage(),
       ),
     );
   }
@@ -35,30 +35,23 @@ class _MainPageState extends State<MainPage> {
   String weight = "";
   String netVolume = "";
 
-  void _updateWeightAndNetVolume(String newWeight, String newNetVolume) {
-    setState(() {
-      weight = newWeight;
-      netVolume = newNetVolume;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        title: const Text('Net Volume'),
       ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            NetVolumeCalculator(),
+            const NetVolumeCalculator(),
             ElevatedButton(
               child: const Text('click'),
               onPressed: () {
                 SplitView.of(context).setSecondary(
                   SecondPage(weight: weight, netVolume: netVolume),
-                  title: 'Second',
+                  title: 'Parameters',
                 );
               },
             ),
@@ -83,7 +76,7 @@ class SecondPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Second'),
+        title: const Text('Parameters'),
       ),
       body: Center(
         child: Builder(
@@ -98,17 +91,18 @@ class SecondPage extends StatelessWidget {
                       SplitView.of(context).pop();
                     },
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Parameters(
                     weight: weight,
                     netVolume: netVolume,
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   ElevatedButton(
-                    child: Text('forward'),
+                    child: const Text('forward'),
                     onPressed: () {
+                      //upload.addingDailyParameters(RequestParameter(netVolume: NetVolume(patient: Patient(patientName: patientName, docId: docId, mrn: mrn)), date: date, sodiumRequired: sodiumRequired, potassiumRequired: potassiumRequired, girRequired: girRequired, proteinRequired: proteinRequired, lipidRequired: lipidRequired))
                       SplitView.of(context).push(
-                        ThirdPage(),
+                        const ThirdPage(),
                         title: 'Third',
                       );
                     },

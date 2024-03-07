@@ -1,34 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_tpn/components/helpers/net_volume.dart';
+import 'package:flutter_tpn/components/helpers/patient.dart';
+import 'package:flutter_tpn/components/helpers/request_parameter.dart';
 
-class Patient {
-  final String patientName;
-  final String docId;
-  final num mrn;
+class GettingData {
+  GettingData();
 
-  Patient({required this.patientName, required this.docId, required this.mrn});
-}
-
-class FirestoreService {
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
-
+  final FirebaseFirestore db = FirebaseFirestore.instance;
   final String mainCollectionPath = 'hospitals';
   CollectionReference get mainCollectionRef =>
-      _db.collection(mainCollectionPath);
+      db.collection(mainCollectionPath);
 
-  CollectionReference allPatient(String documentPath) => _db
+  CollectionReference allPatient(String documentPath) => db
       .collection(mainCollectionPath)
       .doc(documentPath)
       .collection('patientList');
-}
 
-class MyWidget {
-  MyWidget();
+  Future<List<Patient>> fetchCurrentPatients() async {
+    final patientDataRef = allPatient('El bakry');
 
-  final FirestoreService db = FirestoreService();
-  Future<List<Patient>> fetchPatients() async {
-    final patientDataRef = db.allPatient('el bakry');
-
-    final querySnapshot = await patientDataRef.get();
+    final querySnapshot =
+        await patientDataRef.where("state", isEqualTo: "current").get();
 
     final patients = querySnapshot.docs.map((doc) {
       final data = doc.data() as Map<String, dynamic>;
@@ -39,57 +31,62 @@ class MyWidget {
     return patients;
   }
 
-// i want to add method or class to get all current patient list
+  Future<List<DateTime>> getAllDates(String docId) async {
+    try {
+      final patientParametersRef = FirebaseFirestore.instance
+          .collection('hospitals/El bakry/patientParameters/$docId');
 
-// i want to add method or class to get all current or not current patient into list
-
-// i want to get the days that is saved in for the patient taking TPN
-
-// i want to recall the tpn request for certain patient in a certain day
-
-  Future<void> getPatientNames() async {
-    final patientDataRef = FirebaseFirestore.instance
-        .collection("hospitals")
-        .doc("El bakry")
-        .collection("patientList");
-
-    final querySnapshot = await patientDataRef.get();
-    final allPatientData = querySnapshot.docs.map((doc) {
-      final data = doc.data();
-      return {
-        "patientName": data["patientName"],
-        "id": doc.id,
-      };
-    }).toList();
-
-    List<Map<String, dynamic>> patientList() {
-      return [
-        {'patientName': 'Osama'},
-        {'MRN': 2}
-      ];
+      final snapshots = await patientParametersRef.get();
+      final dates = snapshots.docs
+          .map((snapshot) => snapshot.data()['date'] as DateTime)
+          .toList();
+      return dates.toSet().toList();
+    } catch (e) {
+      print("Error getting dates: $e");
+      return [];
     }
   }
 
-// used as templet to decrease firestore code and easy to maintain
-//   money(t) {
-//     final FirestoreService db = FirestoreService();
-//     var documentPath = t;
-//     const mainCollectionPath = 'trackMoney';
-//     final mainCollectionRef = db.collection(mainCollectionPath);
-//     final documentRef = mainCollectionRef.doc(documentPath);
+  Future<RequestParameter> getDailyParameters(String docId, String date) async {
+    try {
+      final patientParametersRef = FirebaseFirestore.instance
+          .collection('hospitals/El bakry/patientParameters/$docId')
+          .where('date', isEqualTo: date);
 
-//     const income = 'income';
-//     const expense = 'expense';
+      final snapshot = await patientParametersRef.get();
 
-//     final incomeRef = documentRef.collection(income);
-//     final expenseRef = documentRef.collection(expense);
-
-// // Create a new user with a first and last name
-//     void incomeAddition() {
-//       final user = <String, dynamic>{"first": "Ada"};
-
-// // Add a new document with a generated ID
-//       incomeRef.doc(t).set(user);
-//     }
-//   }
+      final data = snapshot.docs as Map<String, dynamic>;
+      return RequestParameter(
+        netVolume: NetVolume(
+          patient: Patient(
+              docId: data['docId'],
+              patientName: data['patientName'],
+              mrn: data['mrn']),
+          netVolume: data['netVolume'],
+          infustionRate: data['infusionRate'],
+          mlKg: data['mlKg'],
+          drugVolume: data['drugVolume'],
+          restrictionMlKg: data['restrictionMlKg'],
+          restrictionPercent: data['restrictionPercent'],
+          additionMlKg: data['additionMlKg'],
+          feedingAmount: data['feedingAmount'],
+        ),
+        date: data['date'],
+        sodiumRequired: data['sodiumRequired'],
+        potassiumRequired: data['potassiumRequired'],
+        magnesiumRequired: data['magnesiumRequired'],
+        phosphateRequired: data['phosphateRequired'],
+        traceRequired: data['traceRequied'],
+        vitaminRequired: data['vitaminRequired'],
+        girRequired: data['girRequired'],
+        proteinRequired: data['proteinRequired'],
+        lipidRequired: data['lipidRequried'],
+      );
+    } catch (e) {
+      // Handle errors appropriately
+      print("Error getting request: $e");
+      // ignore: null_argument_to_non_null_type
+      return Future.value(null);
+    }
+  }
 }

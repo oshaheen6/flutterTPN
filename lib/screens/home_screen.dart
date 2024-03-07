@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({required Key key}) : super(key: key);
+  const HomeScreen({super.key});
 
   Widget _buildCard1Content(BuildContext context) {
     return const Column(

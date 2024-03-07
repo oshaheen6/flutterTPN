@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_tpn/cubit/tpn_request/tpn_request_cubit.dart';
 import '../../components/widgets/mytextfiled.dart';
-import 'setting_screen.dart';
 
 class NetVolumeCalculator extends StatefulWidget {
   //final void Function(String, String) onCalculate;
@@ -9,25 +10,93 @@ class NetVolumeCalculator extends StatefulWidget {
 //  const NetVolumeCalculator({required this.onCalculate});
 
   @override
-  _NetVolumeCalculatorState createState() => _NetVolumeCalculatorState();
+  State<NetVolumeCalculator> createState() => _NetVolumeCalculatorState();
 }
 
 class _NetVolumeCalculatorState extends State<NetVolumeCalculator> {
-  late double trophic;
-  late double feedingGIR;
-  late double feedingLipid;
-  late double feedingProtein;
-  String weight = "";
-  String mlKg = "";
-  String restriction = "";
-  String addition = "";
-  String feeding = "";
-  String drugs = "";
-  String netVolumeResult = "";
-  bool showWeightModal = false;
-  late double weightDB;
+  double trophic = 0;
   late double minGlucoseConcentration;
   late double maxGlucoseConcentration;
+
+  @override
+  void initState() {
+    super.initState();
+
+    context.read<TpnRequestCubit>();
+
+//restrictionControllerSubscription = restrictionController.
+    weightController.addListener(() {
+      final value = weightController.text;
+      context.read<TpnRequestCubit>().calculateNetVolume(
+            value,
+            mlKgController.text,
+            restrictionController.text,
+            additionController.text,
+            feedingController.text,
+            drugsController.text,
+          );
+    });
+
+    mlKgController.addListener(() {
+      final value = mlKgController.text;
+      context.read<TpnRequestCubit>().calculateNetVolume(
+            weightController.text,
+            value,
+            restrictionController.text,
+            additionController.text,
+            feedingController.text,
+            drugsController.text,
+          );
+    });
+
+    restrictionController.addListener(() {
+      final value = restrictionController.text;
+      context.read<TpnRequestCubit>().calculateNetVolume(
+            weightController.text,
+            mlKgController.text,
+            value,
+            additionController.text,
+            feedingController.text,
+            drugsController.text,
+          );
+    });
+
+    additionController.addListener(() {
+      final value = additionController.text;
+      context.read<TpnRequestCubit>().calculateNetVolume(
+            weightController.text,
+            mlKgController.text,
+            restrictionController.text,
+            value,
+            feedingController.text,
+            drugsController.text,
+          );
+    });
+
+    feedingController.addListener(() {
+      final value = feedingController.text;
+      context.read<TpnRequestCubit>().calculateNetVolume(
+            weightController.text,
+            mlKgController.text,
+            restrictionController.text,
+            additionController.text,
+            value,
+            drugsController.text,
+          );
+    });
+
+    drugsController.addListener(() {
+      final value = drugsController.text;
+      context.read<TpnRequestCubit>().calculateNetVolume(
+            weightController.text,
+            mlKgController.text,
+            restrictionController.text,
+            additionController.text,
+            feedingController.text,
+            value,
+          );
+    });
+  }
 
   TextEditingController weightController = TextEditingController();
   TextEditingController mlKgController = TextEditingController();
@@ -37,229 +106,62 @@ class _NetVolumeCalculatorState extends State<NetVolumeCalculator> {
   TextEditingController drugsController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-    trophic = 30.0;
-    maxGlucoseConcentration = 25;
-    minGlucoseConcentration = 5;
-  }
-
-  void calculateNetVolume() {
-    double weightValue = double.tryParse(weight) ?? 0;
-    double mlKgValue = double.tryParse(mlKg) ?? 0;
-    double restrictionValue = double.tryParse(restriction) ?? 0;
-    double additionValue = double.tryParse(addition) ?? 0;
-    double feedingValue = double.tryParse(feeding) ?? 0;
-
-    double netVolume = (mlKgValue * weightValue) -
-        restrictionValue +
-        additionValue +
-        feedingValue +
-        (trophic * weightValue);
-    setState(() {
-      netVolumeResult = netVolume.toStringAsFixed(2);
-    });
-    //widget.onCalculate(weight, netVolumeResult);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          const SizedBox(height: 20),
-          Form(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                MyTextField(
-                  label: "Trophic",
-                  initialValue: trophic.toString(),
-                  onChanged: (value) {
-                    setState(() {
-                      trophic = double.tryParse(value) ?? 0;
-                    });
-                    calculateNetVolume();
-                  },
-                ),
-                const SizedBox(height: 20),
-                MyTextField(
-                  label: "Weight (Kg)",
-                  thecontroller: weightController,
-                  onChanged: (value) {
-                    setState(() {
-                      weight = value;
-                    });
-                    calculateNetVolume();
-                  },
-                ),
-                const SizedBox(height: 20),
-                MyTextField(
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            Form(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 20),
+                  MyTextField(
+                    label: "Weight (Kg)",
+                    thecontroller: weightController,
+                  ),
+                  const SizedBox(height: 20),
+                  MyTextField(
                     label: "ml/kg/day",
                     thecontroller: mlKgController,
-                    onChanged: (value) {
-                      setState(() {
-                        weight = value;
-                        calculateNetVolume();
-                      });
-                    }),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: SizedBox(
-                    width: 250,
-                    child: TextFormField(
-                      controller: mlKgController,
-                      decoration: const InputDecoration(labelText: "ml/kg/day"),
-                      keyboardType: TextInputType.number,
-                      onChanged: (value) {
-                        setState(() {
-                          mlKg = value;
-                        });
-                        calculateNetVolume();
-                      },
-                    ),
                   ),
-                ),
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: SizedBox(
-                    width: 250,
-                    child: TextFormField(
-                      controller: restrictionController,
-                      decoration:
-                          const InputDecoration(labelText: "Restriction"),
-                      keyboardType: TextInputType.number,
-                      onChanged: (value) {
-                        setState(() {
-                          restriction = value;
-                        });
-                        calculateNetVolume();
-                      },
-                    ),
+                  const SizedBox(height: 20),
+                  MyTextField(
+                    label: "Restriction",
+                    thecontroller: restrictionController,
                   ),
-                ),
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: SizedBox(
-                    width: 250,
-                    child: TextFormField(
-                      controller: additionController,
-                      decoration: const InputDecoration(labelText: "Addition"),
-                      keyboardType: TextInputType.number,
-                      onChanged: (value) {
-                        setState(() {
-                          addition = value;
-                        });
-                        calculateNetVolume();
-                      },
-                    ),
+                  const SizedBox(height: 20),
+                  MyTextField(
+                    label: "Addition",
+                    thecontroller: additionController,
                   ),
-                ),
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: SizedBox(
-                    width: 250,
-                    child: TextFormField(
-                      controller: feedingController,
-                      decoration: const InputDecoration(labelText: "Feeding"),
-                      keyboardType: TextInputType.number,
-                      onChanged: (value) {
-                        setState(() {
-                          feeding = value;
-                        });
-                        calculateNetVolume();
-                      },
-                    ),
+                  const SizedBox(height: 20),
+                  MyTextField(
+                    label: "Feeding",
+                    thecontroller: feedingController,
                   ),
-                ),
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: SizedBox(
-                    width: 250,
-                    child: TextFormField(
-                      controller: drugsController,
-                      decoration: const InputDecoration(labelText: "Drugs"),
-                      onChanged: (value) {
-                        setState(() {
-                          drugs = value;
-                        });
-                        calculateNetVolume();
-                      },
-                    ),
+                  const SizedBox(height: 20),
+                  MyTextField(
+                    label: "Drugs",
+                    thecontroller: drugsController,
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: 20),
-          Center(
-            child: ElevatedButton(
-              onPressed: () async {
-                await showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: const Text('Enter Weight (Kg)'),
-                      content: TextField(
-                        keyboardType: TextInputType.number,
-                        onChanged: (value) {
-                          setState(() {
-                            weightDB = double.tryParse(value) ?? 0;
-                          });
-                        },
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            setState(() {
-                              showWeightModal = false;
-                            });
-                            calculateNetVolume();
-                          },
-                          child: const Text('OK'),
-                        ),
-                      ],
-                    );
-                  },
-                );
-                setState(() {
-                  showWeightModal = true;
-                });
+            const SizedBox(height: 20),
+            BlocBuilder<TpnRequestCubit, TpnRequestState>(
+              bloc: context.read<TpnRequestCubit>(),
+              builder: (context, state) {
+                if (state is NetVolume) {
+                  return Text("Net Volume: ${state.netVolume} ml");
+                } else {
+                  return const Text("Calculating...");
+                }
               },
-              child: const Text("Calculate Net Volume"),
-            ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            "Net Volume: $netVolumeResult ml",
-            style: const TextStyle(fontSize: 20),
-          ),
-          const SizedBox(height: 20),
-          Center(
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SettingsScreen(
-                      trophic: trophic,
-                      maxGlucoseConcentration: maxGlucoseConcentration,
-                      minGlucoseConcentration: minGlucoseConcentration,
-                      onSave: (trophic, minGlucoseConcentration,
-                              maxGlucoseConcentration) =>
-                          0,
-                    ),
-                  ),
-                );
-              },
-              child: const Text("Settings"),
-            ),
-          ),
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

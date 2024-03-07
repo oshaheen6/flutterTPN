@@ -15,7 +15,7 @@ class Parameters extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ParametersState createState() => _ParametersState();
+  State<Parameters> createState() => _ParametersState();
 }
 
 class _ParametersState extends State<Parameters> {
@@ -191,7 +191,7 @@ class _ParametersState extends State<Parameters> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
+                      const Text(
                         'GIR & Max GIR',
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
@@ -225,7 +225,7 @@ class _ParametersState extends State<Parameters> {
                             child: TextField(
                               controller: _girController,
                               focusNode: _focusNodes[8],
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText: 'GIR',
                                 border: OutlineInputBorder(),
                               ),
@@ -274,7 +274,7 @@ class _ParametersState extends State<Parameters> {
       focusNode: focusNode,
       decoration: InputDecoration(
         labelText: label,
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
         suffix: trailing,
       ),
       keyboardType: keyboardType,
@@ -294,14 +294,14 @@ class MaxGIRCalculator extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Max GIR Calculator'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
+      body: const Padding(
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             // Text("Weight: ${widget.weight}"),
             // Text("Net Volume: ${widget.netVolume}"),
-            const Parameters(
+            Parameters(
               weight: '80 kg',
               netVolume: '1500 ml',
               maxGlucoseConcentration: 25,

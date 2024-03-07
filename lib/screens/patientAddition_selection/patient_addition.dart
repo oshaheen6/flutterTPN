@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:flutter_tpn/components/helpers/standard_appbar.dart';
+import 'package:flutter_tpn/data/storing_daily_data_firebase.dart';
+import 'package:flutter_tpn/screens/patientAddition_selection/patient_selection.dart';
 
 class PatientAddition extends StatefulWidget {
+  const PatientAddition({super.key});
+
   @override
-  _PatientAdditionState createState() => _PatientAdditionState();
+  PatientAdditionState createState() => PatientAdditionState();
 }
 
-class _PatientAdditionState extends State<PatientAddition> {
+class PatientAdditionState extends State<PatientAddition> {
+  final uploadData = UploadData();
   late final TextEditingController patientNameController =
       TextEditingController();
   late final TextEditingController mrnController = TextEditingController();
@@ -14,11 +20,10 @@ class _PatientAdditionState extends State<PatientAddition> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Firebase Screen"),
+      appBar: const StandardAppBar(
+        title: ("Patient Addition"),
       ),
       body: SingleChildScrollView(
-        // Changed ScrollView to SingleChildScrollView
         child: Column(
           children: [
             Padding(
@@ -43,34 +48,12 @@ class _PatientAdditionState extends State<PatientAddition> {
               onPressed: () async {
                 final patientName = patientNameController.text;
                 final mrn = mrnController.text;
-                try {
-                  final patientListRef = FirebaseFirestore.instance
-                      .collection('hospitals')
-                      .doc('El bakry')
-                      .collection('patientList');
-                  final newPatientDocRef = await patientListRef.add({
-                    'patientName': patientName,
-                    'MRN': mrn,
-                  });
-
-                  final patientParametersRef = FirebaseFirestore.instance.doc(
-                    'hospitals/El bakry/patientParameters/${newPatientDocRef.id}',
-                  );
-                  await patientParametersRef.set({
-                    'weight': 0,
-                    'proteinPerKg': 0,
-                    'GIR': 0,
-                  });
-
-                  final preparationVolumeRef = FirebaseFirestore.instance.doc(
-                    'hospitals/El bakry/preparationVolume/${newPatientDocRef.id}',
-                  );
-                  await preparationVolumeRef.set({
-                    'volume': 0,
-                  });
-                } catch (e) {
-                  return;
-                }
+                uploadData.patientAddition(patientName, mrn);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HospitalSelectPatient(),
+                    ));
               },
               child: const Text("Add Patient"),
             )

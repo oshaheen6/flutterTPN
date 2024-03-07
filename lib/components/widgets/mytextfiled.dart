@@ -4,16 +4,18 @@ import "package:flutter/material.dart";
 class MyTextField extends StatelessWidget {
   final String label;
   final TextEditingController? thecontroller;
+  final FocusNode? focusNode;
   final String? initialValue;
   final TextInputType keyboardType;
-  final Function(String) onChanged;
+  final Function(String)? onChanged;
 
   const MyTextField(
       {required this.label,
       this.thecontroller,
+      this.focusNode,
       this.initialValue,
       this.keyboardType = TextInputType.number,
-      required this.onChanged,
+      this.onChanged,
       super.key});
 
   @override
@@ -26,9 +28,6 @@ class MyTextField extends StatelessWidget {
           decoration: InputDecoration(labelText: label),
           controller: thecontroller,
           keyboardType: keyboardType,
-          onChanged: (value) {
-            onChanged;
-          },
         ),
       ),
     );
@@ -37,3 +36,5 @@ class MyTextField extends StatelessWidget {
 
 // call onchange from cubit
 //controller also
+
+

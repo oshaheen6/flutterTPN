@@ -1,75 +1,31 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter_tpn/components/helpers/patient.dart';
+import 'package:flutter_tpn/components/helpers/perfusion_data.dart';
+import 'package:flutter_tpn/components/helpers/request_parameter.dart';
+import 'package:flutter_tpn/data/previous_data_firebase.dart';
 
 part 'patient_selection_state.dart';
 
 class PatientSelectionCubit extends Cubit<PatientSelectionState> {
   PatientSelectionCubit() : super(PatientSelectionInitial());
 
-  List patients = ['osama', 'shaheen'];
+  void patientSelectionInitial() async {
+    final patientData = GettingData();
 
-// the declaration for calculateNetVolume & calculateMaxGir results
-  int netVolume = 0;
-  int maxGir = 0;
+    final patientList = await patientData.fetchCurrentPatients();
+    final patientNames = patientList.map((patient) => patient).toList();
 
-// controllers for calculateNetVolume
-  TextEditingController weightController = TextEditingController();
-  TextEditingController mlKgController = TextEditingController();
-  TextEditingController restrictionMlorPercentontroller =
-      TextEditingController();
-  TextEditingController restrictionValueController = TextEditingController();
-  TextEditingController additionMlorPercentController = TextEditingController();
-  TextEditingController additionValueController = TextEditingController();
-  TextEditingController feedingController = TextEditingController();
-  TextEditingController drugsController = TextEditingController();
-
-// controllers for calculateMaxGir
-  TextEditingController naController = TextEditingController();
-  TextEditingController kController = TextEditingController();
-  TextEditingController mgController = TextEditingController();
-  TextEditingController phosphorusController = TextEditingController();
-  TextEditingController traceElementController = TextEditingController();
-  TextEditingController vitaminsController = TextEditingController();
-  TextEditingController proteinController = TextEditingController();
-  TextEditingController lipidController = TextEditingController();
-  TextEditingController girController = TextEditingController();
-
-  void calculateNetVolume(
-      int patientWeight,
-      int mlKgDay,
-      String restrictionMlorPercent,
-      int restrictionValue,
-      String additionMlofPercent,
-      int addtionValue,
-      int feedingAmount,
-      int drugAmount) {}
-//change the controller to int
-
-//Ml or percent logic
-
-// netVolume calculation
-
-//return netVolume
-
-  void calculateMaxGir(
-      int patientWeight,
-      int netVolume,
-      int naParameter,
-      int kParameter,
-      int mgParameter,
-      int phParameter,
-      int traceParameter,
-      int vitaminParameter,
-      int proteinParameter,
-      int lipidParameter) {
-// convert controller to int
-
-//calculate each parameter volume
-
-//calculate maxGir
+    emit(PatientListCreated(patientsName: patientNames));
   }
 
-  void saveParametersAndVolume() {
-    //pass data to firebase to be saved
+  void getOldTpnRequest(Patient tpatient) async {
+    try {
+      await Future<void>.delayed(const Duration(milliseconds: 500));
+
+      emit(PatientSelected(patient: tpatient));
+    } catch (e) {
+      print(e);
+    }
   }
 }

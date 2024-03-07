@@ -1,35 +1,42 @@
 part of 'patient_selection_cubit.dart';
 
-@immutable
-sealed class PatientSelectionState {}
+abstract class PatientSelectionState extends Equatable {}
 
-final class PatientSelectionInitial extends PatientSelectionState {}
+class PatientSelectionInitial extends PatientSelectionState {
+  @override
+  List<Object?> get props => [];
+}
 
-final class PatientListCreated extends PatientSelectionState {
-  final List patients;
-  PatientListCreated({required this.patients});
+class PatientListCreated extends PatientSelectionState {
+  final List<Patient> patientsName;
+
+  PatientListCreated({required this.patientsName});
+
+  @override
+  List<Object?> get props => [patientsName];
 }
 
 class PatientSelected extends PatientSelectionState {
-  final String patientName;
-  final int mrn;
-  final String docId;
-  PatientSelected(
-      {required this.patientName, required this.mrn, required this.docId});
+  final Patient patient;
+
+  PatientSelected({required this.patient});
+
+  @override
+  List<Object?> get props => [patient];
 }
 
-late double trophic;
-late double feedingGIR;
-late double feedingLipid;
-late double feedingProtein;
-String weight = "";
-String mlKg = "";
-String restriction = "";
-String addition = "";
-String feeding = "";
-String drugs = "";
-String netVolumeResult = "";
-bool showWeightModal = false;
-late double weightDB;
-late double minGlucoseConcentration;
-late double maxGlucoseConcentration;
+class SetRequest extends PatientSelectionState {
+  final RequestParameter request;
+
+  SetRequest({required this.request});
+  @override
+  List<Object?> get props => [request];
+}
+
+class SetPerfusion extends PatientSelectionState {
+  final PerfusionData perfusion;
+  SetPerfusion({required this.perfusion});
+
+  @override
+  List<Object?> get props => [perfusion];
+}
