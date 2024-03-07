@@ -338,6 +338,12 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "routemaster",
+      "rootUri": "file:///home/osama/.pub-cache/hosted/pub.dev/routemaster-1.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "shared_preferences",
       "rootUri": "file:///home/osama/.pub-cache/hosted/pub.dev/shared_preferences-2.1.2",
       "packageUri": "lib/",
@@ -536,7 +542,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2024-03-07T07:51:47.758618Z",
+  "generated": "2024-03-07T12:26:07.952804Z",
   "generator": "pub",
   "generatorVersion": "3.2.6"
 }

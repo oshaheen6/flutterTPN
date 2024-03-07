@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import 'package:flutter_tpn/components/helpers/standard_appbar.dart';
 import 'package:flutter_tpn/data/storing_daily_data_firebase.dart';
 import 'package:flutter_tpn/screens/patientAddition_selection/patient_selection.dart';
 
@@ -20,9 +18,6 @@ class PatientAdditionState extends State<PatientAddition> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const StandardAppBar(
-        title: ("Patient Addition"),
-      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
