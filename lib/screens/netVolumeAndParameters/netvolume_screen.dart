@@ -107,62 +107,57 @@ class _NetVolumeCalculatorState extends State<NetVolumeCalculator> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            Form(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 20),
-                  MyTextField(
-                    label: "Weight (Kg)",
-                    thecontroller: weightController,
-                  ),
-                  const SizedBox(height: 20),
-                  MyTextField(
-                    label: "ml/kg/day",
-                    thecontroller: mlKgController,
-                  ),
-                  const SizedBox(height: 20),
-                  MyTextField(
-                    label: "Restriction",
-                    thecontroller: restrictionController,
-                  ),
-                  const SizedBox(height: 20),
-                  MyTextField(
-                    label: "Addition",
-                    thecontroller: additionController,
-                  ),
-                  const SizedBox(height: 20),
-                  MyTextField(
-                    label: "Feeding",
-                    thecontroller: feedingController,
-                  ),
-                  const SizedBox(height: 20),
-                  MyTextField(
-                    label: "Drugs",
-                    thecontroller: drugsController,
-                  ),
-                ],
+    return BlocBuilder<TpnRequestCubit, TpnRequestState>(
+      builder: (context, state) {
+        if (state is TpnRequestInitial || state is NetVolume) {
+          return Column(
+            children: [
+              const SizedBox(height: 20),
+              Form(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 20),
+                    MyTextField(
+                      label: "Weight (Kg)",
+                      thecontroller: weightController,
+                    ),
+                    const SizedBox(height: 20),
+                    MyTextField(
+                      label: "ml/kg/day",
+                      thecontroller: mlKgController,
+                    ),
+                    const SizedBox(height: 20),
+                    MyTextField(
+                      label: "Restriction",
+                      thecontroller: restrictionController,
+                    ),
+                    const SizedBox(height: 20),
+                    MyTextField(
+                      label: "Addition",
+                      thecontroller: additionController,
+                    ),
+                    const SizedBox(height: 20),
+                    MyTextField(
+                      label: "Feeding",
+                      thecontroller: feedingController,
+                    ),
+                    const SizedBox(height: 20),
+                    MyTextField(
+                      label: "Drugs",
+                      thecontroller: drugsController,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            BlocBuilder<TpnRequestCubit, TpnRequestState>(
-              bloc: context.read<TpnRequestCubit>(),
-              builder: (context, state) {
-                if (state is NetVolume) {
-                  return Text("Net Volume: ${state.netVolume} ml");
-                } else {
-                  return const Text("Calculating...");
-                }
-              },
-            )
-          ],
-        ),
-      ),
+              const SizedBox(height: 20),
+              if (state is NetVolume) Text("Net Volume: ${state.netVolume} ml"),
+            ],
+          );
+        } else {
+          return const Text("Calculating...");
+        }
+      },
     );
   }
 }

@@ -11,7 +11,7 @@ import './screens/Sign_in_out/sign_in_screen.dart';
 import 'package:routemaster/routemaster.dart';
 
 final theCubit = PatientSelectionCubit();
-final theSetting = TpnRequestCubit();
+final theRequest = TpnRequestCubit();
 
 final routes = RouteMap(routes: {
   '/': (_) => const MaterialPage(child: SignInScreen()),
@@ -27,9 +27,9 @@ final routes = RouteMap(routes: {
           child: const DaySelection(),
         ),
       ),
-  '/net_volume': (_) => MaterialPage(
+  '/request': (_) => MaterialPage(
         child: BlocProvider.value(
-            value: theSetting, child: PatientParametersScreen()),
+            value: theRequest, child: PatientParametersScreen()),
       ),
 });
 void main() async {

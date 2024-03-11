@@ -40,7 +40,14 @@ class TpnRequestCubit extends Cubit<TpnRequestState> {
         feedingValue;
 
     String netVolumeResult = netVolume.toStringAsFixed(2);
-    emit(NetVolume(netVolume: netVolumeResult));
+    emit(NetVolume(
+        netVolume: netVolumeResult,
+        weight: patientWeight,
+        mlKg: mlKgDay,
+        restriction: restrictionAmount,
+        addition: additionAmount,
+        feeding: feedingAmount,
+        drugs: drugAmount));
   }
 //change the controller to int
 

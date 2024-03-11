@@ -12,5 +12,20 @@ final class OldTpnRequest extends TpnRequestState {
 
 final class NetVolume extends TpnRequestState {
   final String netVolume;
-  NetVolume({required this.netVolume});
+  final String? weight;
+  final String? mlKg;
+  final String? restriction;
+  final String? addition;
+  final String? feeding;
+  final String? drugs;
+
+  NetVolume({
+    required this.netVolume,
+    this.weight,
+    this.mlKg,
+    this.restriction,
+    this.addition,
+    this.feeding,
+    this.drugs,
+  });
 }
